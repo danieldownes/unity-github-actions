@@ -1,15 +1,9 @@
 name: Unity Install
-on:
-  # Triggers the workflow on push or pull request events but only for this branch
-  #pull_request:
-  branches: #[ develop ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+on: push
 
 jobs:
   build:
-    name: Build Unity (UWP ARM64)
+    name: Build Unity
     runs-on: windows-latest
     env:
       UNITY_VERSION: 2020.3.16f1
