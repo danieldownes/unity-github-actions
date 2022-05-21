@@ -1,0 +1,36 @@
+name: Unity Install
+on:
+  # Triggers the workflow on push or pull request events but only for this branch
+  #pull_request:
+  branches: #[ develop ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Unity (UWP ARM64)
+    runs-on: windows-latest
+    env:
+      UNITY_VERSION: 2020.3.16f1
+        
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        with:
+          lfs: true
+
+      - name: Cache Unity Setup Installers
+        uses: actions/cache@v3.0.2 
+        with:
+          path: UnityInstallCache-test1
+          key: UnityInstallCache-test1-${{ env.UNITY_VERSION }}
+          
+      - name: Install Unity
+        # ,'Lumin','UWP_IL2CPP'
+        run: |
+          Install-Module UnitySetup -Force
+          Import-Module UnitySetup
+          Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version "$env:UNITY_VERSION" -Components 'Windows') -Verbose
+        
+        shell: pwsh
