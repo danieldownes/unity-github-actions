@@ -15,12 +15,14 @@ jobs:
           lfs: true
 
       - name: Cache Unity Setup Installers
-        uses: actions/cache@v3.0.2 
+        id: cache-unity-install
+        uses: actions/cache@v3.0.2
         with:
           path: UnityInstallCache-test1
           key: UnityInstallCache-test1-${{ env.UNITY_VERSION }}
           
-      - name: Install Unity
+      - if: ${{ steps.unity-install.outputs.cache-hit == false }}
+        name: Install Unity
         # ,'Lumin','UWP_IL2CPP'
         run: |
           Install-Module UnitySetup -Force
