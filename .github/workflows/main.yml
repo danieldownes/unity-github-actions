@@ -20,7 +20,7 @@ jobs:
         id: cache-unity
         with:
           path: .\UnitySetupInstallerCache
-          key: Unity-Setup-3-${{ env.UNITY_VERSION }}
+          key: Unity-Setup-UWP_IL2CPP-${{ env.UNITY_VERSION }}
 
       # Using https://github.com/microsoft/unitysetup.powershell
       - name: ⚙ Install Unity
@@ -28,7 +28,7 @@ jobs:
         run: |
           Install-Module UnitySetup -Force
           Import-Module UnitySetup
-          Install-UnitySetupInstance -Cache UnitySetupInstallerCache -Installers (Find-UnitySetupInstaller -Version "$env:UNITY_VERSION" -Components 'Windows') -Verbose
+          Install-UnitySetupInstance -Cache UnitySetupInstallerCache -Installers (Find-UnitySetupInstaller -Version "$env:UNITY_VERSION" -Components 'UWP_IL2CPP') -Verbose
         #, 'UWP_IL2CPP', 'Lumin'
         
       - name: Check Unity Versions
