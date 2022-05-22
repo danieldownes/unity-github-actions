@@ -30,7 +30,15 @@ jobs:
           Import-Module UnitySetup
           Install-UnitySetupInstance -Cache UnitySetupInstallerCache -Installers (Find-UnitySetupInstaller -Version "$env:UNITY_VERSION" -Components 'Windows') -Verbose
         #, 'UWP_IL2CPP', 'Lumin'
-        
+
+      - name: Activate Unity License
+        run: Start-UnityEditor -Credential (New-Object System.Management.Automation.PSCredential ("$env:UNITY_EMAIL", (ConvertTo-SecureString "$env:UNITY_PASSWORD" -AsPlainText -Force))) -LogFile .\Logs\Activation.log -AdditionalArguments "-verbose -nographics" -Wait -Verbose -ErrorAction SilentlyContinue
+        shell: pwsh
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL_FREE }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD_FREE }}
+        #continue-on-error: true # Can output errors even if activation is successful. Using -LogFile reports them as error. As an alternative, log silently as AdditionalArgument "-logFile .\Logs\Activation.log" instead.
+
       - name: Check Unity Versions
         run: Get-UnitySetupInstance
         shell: pwsh
