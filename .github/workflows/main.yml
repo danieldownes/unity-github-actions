@@ -18,8 +18,8 @@ jobs:
         id: cache-unity
         uses: actions/cache@v3.0.2
         with:
-          path: UnityInstallCache-test1
-          key: UnityInstallCache-test1-${{ env.UNITY_VERSION }}
+          path: C:\Program Files\Unity\Hub\Editor\${{ env.UNITY_VERSION }}
+          key: UnityInstallCache-test2-${{ env.UNITY_VERSION }}
           
       - if: ${{ steps.cache-unity.outputs.cache-hit == false }}
         name: Install Unity
@@ -28,5 +28,8 @@ jobs:
           Install-Module UnitySetup -Force
           Import-Module UnitySetup
           Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version "$env:UNITY_VERSION" -Components 'Windows') -Verbose
+        shell: pwsh
         
+      - name: Check Unity Version
+        run: Start-UnityEditor -version
         shell: pwsh
