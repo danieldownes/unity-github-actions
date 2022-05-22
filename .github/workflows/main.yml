@@ -14,21 +14,22 @@ jobs:
         with:
           lfs: true
 
-      - name: Cache Unity Setup Installers
-        id: cache-unity
+      # Try to restore the setup cache.
+      - name: 📦 Provide Unity Setup
         uses: actions/cache@v3.0.2
+        id: cache-unity
         with:
-          path: C:\Program Files\Unity\Hub\Editor\${{ env.UNITY_VERSION }}
-          key: UnityInstallCache-test2-${{ env.UNITY_VERSION }}
-          
-      - if: ${{ steps.cache-unity.outputs.cache-hit == false }}
-        name: Install Unity
-        # ,'Lumin','UWP_IL2CPP'
+          path: .\UnitySetupInstallerCache
+          key: Unity-Setup-3-${{ env.UNITY_VERSION }}
+
+      # Using https://github.com/microsoft/unitysetup.powershell
+      - name: ⚙ Install Unity
+        shell: pwsh
         run: |
           Install-Module UnitySetup -Force
           Import-Module UnitySetup
-          Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version "$env:UNITY_VERSION" -Components 'Windows') -Verbose
-        shell: pwsh
+          Install-UnitySetupInstance -Cache UnitySetupInstallerCache -Installers (Find-UnitySetupInstaller -Version "$env:UNITY_VERSION" -Components 'Windows') -Verbose
+        #, 'UWP_IL2CPP', 'Lumin'
         
       - name: Check Unity Versions
         run: Get-UnitySetupInstance
