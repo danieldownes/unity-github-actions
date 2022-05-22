@@ -34,3 +34,4 @@ jobs:
       - name: Check Unity Versions
         run: Get-UnitySetupInstance
         shell: pwsh
+
