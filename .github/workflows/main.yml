@@ -30,6 +30,6 @@ jobs:
           Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version "$env:UNITY_VERSION" -Components 'Windows') -Verbose
         shell: pwsh
         
-      - name: Check Unity Version
-        run: Start-UnityEditor -version
+      - name: Check Unity Versions
+        run: Get-UnitySetupInstance
         shell: pwsh
