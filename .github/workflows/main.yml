@@ -37,9 +37,18 @@ jobs:
         env:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL_FREE }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD_FREE }}
-        #continue-on-error: true # Can output errors even if activation is successful. Using -LogFile reports them as error. As an alternative, log silently as AdditionalArgument "-logFile .\Logs\Activation.log" instead.
 
       - name: Check Unity Versions
         run: Get-UnitySetupInstance
         shell: pwsh
 
+      - name: Build Unity Project
+        run: Start-UnityEditor -ExecuteMethod Build.Invoke -Project .\ -BatchMode -LogFile .\Logs\Build.log -Wait -AdditionalArguments "-verbose -nographics -logDirectory Logs" -Verbose
+        shell: pwsh
+
+      - name: Upload Unity Logs
+        uses: actions/upload-artifact@latest
+        with:
+          name: Unity Logs
+          path: Logs/*.log
+        if: always()
