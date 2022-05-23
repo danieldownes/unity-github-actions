@@ -20,7 +20,7 @@ jobs:
         id: cache-unity
         with:
           path: .\UnitySetupInstallerCache
-          key: Unity-Setup-Windows-${{ env.UNITY_VERSION }}
+          key: Unity-Setup-3-${{ env.UNITY_VERSION }}
 
       # Using https://github.com/microsoft/unitysetup.powershell
       - name: ⚙ Install Unity
