@@ -5,9 +5,6 @@ jobs:
   build:
     name: Build Unity
     runs-on: windows-latest
-    strategy:
-      matrix:
-        Plan: [Windows1,Windows2]
     env:
       UNITY_VERSION: 2020.3.16f1
         
@@ -34,7 +31,7 @@ jobs:
           Install-UnitySetupInstance -Cache UnitySetupInstallerCache -Installers (Find-UnitySetupInstaller -Version "$env:UNITY_VERSION" -Components 'Windows') -Verbose
         #, 'UWP_IL2CPP', 'Lumin'
 
-      - name: Activate Unity License
+      - name: 🪪☁️📥 Activate Unity License
         run: Start-UnityEditor -Credential (New-Object System.Management.Automation.PSCredential ("$env:UNITY_EMAIL", (ConvertTo-SecureString "$env:UNITY_PASSWORD" -AsPlainText -Force))) -Serial (ConvertTo-SecureString "$env:UNITY_SERIAL" -AsPlainText -Force) -Wait -Verbose -ErrorAction SilentlyContinue -LogFile .\Logs\Activation.log -AdditionalArguments "-verbose -nographics"
         shell: pwsh
         env:
@@ -45,6 +42,15 @@ jobs:
       - name: Build Unity Project
         run: Start-UnityEditor -ExecuteMethod Build.Invoke -Project .\ -BatchMode -LogFile .\Logs\Build.log -Wait -AdditionalArguments "-verbose -nographics -logDirectory Logs" -Verbose
         shell: pwsh
+
+      - name: 🪪📤☁️ Return Unity License
+        shell: pwsh
+        if: always()
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        run: |
+          Start-UnityEditor -Credential (New-Object System.Management.Automation.PSCredential ("$env:UNITY_EMAIL", (ConvertTo-SecureString "$env:UNITY_PASSWORD" -AsPlainText -Force))) -ReturnLicense -Wait -Verbose -LogFile .\Logs\Deactivation.log
 
       - name: Upload Unity Logs
         uses: actions/upload-artifact@v3
