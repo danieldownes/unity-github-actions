@@ -32,15 +32,12 @@ jobs:
         #, 'UWP_IL2CPP', 'Lumin'
 
       - name: Activate Unity License
-        run: Start-UnityEditor -Credential (New-Object System.Management.Automation.PSCredential ("$env:UNITY_EMAIL", (ConvertTo-SecureString "$env:UNITY_PASSWORD" -AsPlainText -Force))) -LogFile .\Logs\Activation.log -AdditionalArguments "-verbose -nographics" -Wait -Verbose -ErrorAction SilentlyContinue
+        Start-UnityEditor -Credential (New-Object System.Management.Automation.PSCredential ("$env:UNITY_EMAIL", (ConvertTo-SecureString "$env:UNITY_PASSWORD" -AsPlainText -Force))) -Serial (ConvertTo-SecureString "$env:UNITY_SERIAL" -AsPlainText -Force) -Wait -Verbose -ErrorAction SilentlyContinue -LogFile .\Logs\Activation.log -AdditionalArguments "-verbose -nographics"
         shell: pwsh
         env:
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL_FREE }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD_FREE }}
-
-      - name: Check Unity Versions
-        run: Get-UnitySetupInstance
-        shell: pwsh
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
 
       - name: Build Unity Project
         run: Start-UnityEditor -ForceFree -ExecuteMethod Build.Invoke -Project .\ -BatchMode -LogFile .\Logs\Build.log -Wait -AdditionalArguments "-verbose -nographics -logDirectory Logs" -Verbose
