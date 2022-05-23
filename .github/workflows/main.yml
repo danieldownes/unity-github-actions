@@ -32,7 +32,7 @@ jobs:
         #, 'UWP_IL2CPP', 'Lumin'
 
       - name: Activate Unity License
-        Start-UnityEditor -Credential (New-Object System.Management.Automation.PSCredential ("$env:UNITY_EMAIL", (ConvertTo-SecureString "$env:UNITY_PASSWORD" -AsPlainText -Force))) -Serial (ConvertTo-SecureString "$env:UNITY_SERIAL" -AsPlainText -Force) -Wait -Verbose -ErrorAction SilentlyContinue -LogFile .\Logs\Activation.log -AdditionalArguments "-verbose -nographics"
+        run: Start-UnityEditor -Credential (New-Object System.Management.Automation.PSCredential ("$env:UNITY_EMAIL", (ConvertTo-SecureString "$env:UNITY_PASSWORD" -AsPlainText -Force))) -Serial (ConvertTo-SecureString "$env:UNITY_SERIAL" -AsPlainText -Force) -Wait -Verbose -ErrorAction SilentlyContinue -LogFile .\Logs\Activation.log -AdditionalArguments "-verbose -nographics"
         shell: pwsh
         env:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
