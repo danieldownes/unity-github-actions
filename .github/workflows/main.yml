@@ -5,6 +5,9 @@ jobs:
   build:
     name: Build Unity
     runs-on: windows-latest
+    strategy:
+      matrix:
+        Plan: [Windows1,Windows2]
     env:
       UNITY_VERSION: 2020.3.16f1
         
@@ -20,7 +23,7 @@ jobs:
         id: cache-unity
         with:
           path: .\UnitySetupInstallerCache
-          key: Unity-Setup-UWP_IL2CPP-${{ env.UNITY_VERSION }}
+          key: Unity-Setup-Windows-${{ env.UNITY_VERSION }}
 
       # Using https://github.com/microsoft/unitysetup.powershell
       - name: ⚙ Install Unity
@@ -28,7 +31,7 @@ jobs:
         run: |
           Install-Module UnitySetup -Force
           Import-Module UnitySetup
-          Install-UnitySetupInstance -Cache UnitySetupInstallerCache -Installers (Find-UnitySetupInstaller -Version "$env:UNITY_VERSION" -Components 'UWP_IL2CPP') -Verbose
+          Install-UnitySetupInstance -Cache UnitySetupInstallerCache -Installers (Find-UnitySetupInstaller -Version "$env:UNITY_VERSION" -Components 'Windows') -Verbose
         #, 'UWP_IL2CPP', 'Lumin'
 
       - name: Activate Unity License
@@ -40,7 +43,7 @@ jobs:
           UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
 
       - name: Build Unity Project
-        run: Start-UnityEditor -ForceFree -ExecuteMethod Build.Invoke -Project .\ -BatchMode -LogFile .\Logs\Build.log -Wait -AdditionalArguments "-verbose -nographics -logDirectory Logs" -Verbose
+        run: Start-UnityEditor -ExecuteMethod Build.Invoke -Project .\ -BatchMode -LogFile .\Logs\Build.log -Wait -AdditionalArguments "-verbose -nographics -logDirectory Logs" -Verbose
         shell: pwsh
 
       - name: Upload Unity Logs
