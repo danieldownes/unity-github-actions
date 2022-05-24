@@ -40,8 +40,7 @@ jobs:
           UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
 
       - name: Build Unity Project
-        run: Start-UnityEditor -Project .\ -BatchMode -LogFile .\Logs\Build.log -Wait -AdditionalArguments "-verbose -nographics -logDirectory Logs -buildWindows64Player .\Build" -Verbose
-        #-ExecuteMethod Build.Invoke
+        run: Start-UnityEditor -Project .\ -ExecuteMethod Build.Invoke -BatchMode -LogFile .\Logs\Build.log -Wait -AdditionalArguments "-verbose -nographics -logDirectory Logs" -Verbose
         shell: pwsh
 
       - name: 🪪📤☁️ Return Unity License
