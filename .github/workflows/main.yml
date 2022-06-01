@@ -9,6 +9,8 @@ jobs:
       UNITY_VERSION: 2020.3.16f1
         
     steps:
+      - uses: actions/checkout@v3.0.2
+
       - name: ⚙ TEST DELAYED SCRIPT
         shell: pwsh
         run: Start-Job -FilePath .\DelayTest.ps1
