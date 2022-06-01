@@ -1,4 +1,4 @@
-$Logfile = ".\Logs\proc_$env:computername.log"
+$Logfile = "Logs\proc_$env:computername.log"
 function WriteLog
 {
     Param ([string]$LogString)
