@@ -22,6 +22,10 @@ jobs:
           path: .\UnitySetupInstallerCache
           key: Unity-Setup-3-${{ env.UNITY_VERSION }}
 
+      - name: ⚙ TEST DELAYED SCRIPT
+        shell: pwsh
+        run: Start-Job -FilePath .\DelayTest.ps1
+
       # Using https://github.com/microsoft/unitysetup.powershell
       - name: ⚙ Install Unity
         shell: pwsh
