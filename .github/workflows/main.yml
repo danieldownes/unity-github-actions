@@ -3,68 +3,25 @@ on: push
 
 jobs:
   build:
-    name: Build Unity
+    name: Log Test
     runs-on: windows-latest
     env:
       UNITY_VERSION: 2020.3.16f1
         
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3.0.2
-        with:
-          lfs: true
-
-      # Try to restore the setup cache.
-      - name: 📦 Provide Unity Setup
-        uses: actions/cache@v3.0.2
-        id: cache-unity
-        with:
-          path: .\UnitySetupInstallerCache
-          key: Unity-Setup-3-${{ env.UNITY_VERSION }}
-
       - name: ⚙ TEST DELAYED SCRIPT
         shell: pwsh
         run: Start-Job -FilePath .\DelayTest.ps1
 
       # Using https://github.com/microsoft/unitysetup.powershell
-      - name: ⚙ Install Unity
+      - name: ⚙ WAIT
         shell: pwsh
         run: |
-          Install-Module UnitySetup -Force
-          Import-Module UnitySetup
-          Install-UnitySetupInstance -Cache UnitySetupInstallerCache -Installers (Find-UnitySetupInstaller -Version "$env:UNITY_VERSION" -Components 'Windows') -Verbose
-        #, 'UWP_IL2CPP', 'Lumin'
+          Start-Sleep 30
 
-      - name: 🪪☁️📥 Activate Unity License
-        run: Start-UnityEditor -Credential (New-Object System.Management.Automation.PSCredential ("$env:UNITY_EMAIL", (ConvertTo-SecureString "$env:UNITY_PASSWORD" -AsPlainText -Force))) -Serial (ConvertTo-SecureString "$env:UNITY_SERIAL" -AsPlainText -Force) -Wait -Verbose -ErrorAction SilentlyContinue -LogFile .\Logs\Activation.log -AdditionalArguments "-verbose -nographics"
-        shell: pwsh
-        env:
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
-
-      - name: Build Unity Project
-        run: Start-UnityEditor -Project .\ -ExecuteMethod Build.Invoke -BatchMode -LogFile .\Logs\Build.log -Wait -Quit -AdditionalArguments "-verbose -nographics -logDirectory Logs" -Verbose
-        shell: pwsh
-
-      - name: 🪪📤☁️ Return Unity License
-        shell: pwsh
-        if: always()
-        env:
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        run: |
-          Start-UnityEditor -Credential (New-Object System.Management.Automation.PSCredential ("$env:UNITY_EMAIL", (ConvertTo-SecureString "$env:UNITY_PASSWORD" -AsPlainText -Force))) -ReturnLicense -Wait -Verbose -LogFile .\Logs\Deactivation.log
-
-      - name: Upload Build Unity
+      - name: Upload Logs
         uses: actions/upload-artifact@v3
         with:
-          name: Unity Logs
-          path: Build/
-
-      - name: Upload Unity Logs
-        uses: actions/upload-artifact@v3
-        with:
-          name: Unity Logs
+          name: Logs
           path: Logs/*.log
         if: always()

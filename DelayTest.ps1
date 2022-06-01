@@ -8,5 +8,5 @@ function WriteLog
 }
 New-Item -Path . -Name "Logs" -ItemType "directory"
 WriteLog "STARTing..."
-Start-Sleep 60
+Start-Sleep 10
 WriteLog "Time is UP!!!"
