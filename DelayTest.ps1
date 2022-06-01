@@ -1,4 +1,4 @@
-$Logfile = .\Logs\proc_$env:computername.log"
+$Logfile = ".\Logs\proc_$env:computername.log"
 function WriteLog
 {
     Param ([string]$LogString)
@@ -6,6 +6,7 @@ function WriteLog
     $LogMessage = "$Stamp $LogString"
     Add-content $LogFile -value $LogMessage
 }
+New-Item -Path . -Name "Logs" -ItemType "directory"
 WriteLog "STARTing..."
 Start-Sleep 60
 WriteLog "Time is UP!!!"
