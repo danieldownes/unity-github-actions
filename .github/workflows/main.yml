@@ -13,12 +13,15 @@ jobs:
 
       - name: ⚙ TEST DELAYED SCRIPT
         shell: pwsh
-        run: Start-Job -FilePath .\DelayTest.ps1
+        run: |
+          New-Item -Path . -Name "Logs" -ItemType "directory"\
+          Start-Job -FilePath DelayTest.ps1
 
       # Using https://github.com/microsoft/unitysetup.powershell
       - name: ⚙ WAIT
         shell: pwsh
         run: |
+          New-Item -Path Logs/ -Name "testfile1.txt" -ItemType "file" -Value "This is a text string."
           Start-Sleep 5
 
       - name: Upload Logs
