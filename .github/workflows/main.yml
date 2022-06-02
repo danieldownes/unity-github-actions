@@ -19,11 +19,11 @@ jobs:
       - name: ⚙ WAIT
         shell: pwsh
         run: |
-          Start-Sleep 30
+          Start-Sleep 5
 
       - name: Upload Logs
         uses: actions/upload-artifact@v3
         with:
           name: Logs
-          path: ./*.log
+          path: *.log
         if: always()
