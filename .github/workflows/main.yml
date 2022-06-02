@@ -22,7 +22,7 @@ jobs:
         shell: pwsh
         run: |
           New-Item -Path Logs/ -Name "testfile1.txt" -ItemType "file" -Value "This is a text string."
-          Start-Sleep 5
+          Start-Sleep 30
 
       - name: Upload Logs
         uses: actions/upload-artifact@v3
