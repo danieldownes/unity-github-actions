@@ -1,4 +1,4 @@
-$Logfile = (Get-Location).Path + "\wait.log"
+$Logfile = (Get-Location).Path + "\Logs\wait.log"
 function WriteLog
 {
     Param ([string]$LogString)
