@@ -1,4 +1,4 @@
-$Logfile = "proc_$env:computername.log"
+$Logfile = "wait.log"
 function WriteLog
 {
     Param ([string]$LogString)
