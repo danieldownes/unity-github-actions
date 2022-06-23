@@ -18,7 +18,6 @@ namespace Assets.Editor.BuildTools
     public class Builder : MonoBehaviour
     {
         private static readonly string LocalPath = Application.dataPath + "/../Scripts/localhost.json";
-        private static readonly string CiPath = Application.dataPath + "/../Scripts/github.json";
         private static readonly string lumin_sdk_root = "LuminSDKRoot";
 
         static Builder()
@@ -27,7 +26,7 @@ namespace Assets.Editor.BuildTools
             string path = Builder.LocalPath;
             //if (Environment.GetEnvironmentVariable("CI", EnvironmentVariableTarget.Machine) != null)
             //{
-                path = Builder.CiPath;
+                //path = Builder.CiPath;
             //}
             //else if (! File.Exists(Builder.LocalPath))
             //{
