@@ -33,14 +33,12 @@ namespace Assets.Editor.BuildTools
             //{
                 // Provide file, which is otherwise being ignored by .gitignore
             //    FileUtil.CopyFileOrDirectory(Builder.CiPath, Builder.LocalPath);
-            /}
+            //}
 
             // Append $GITHUB_RUN_NUMBER to the versionName
             string runNumber = ".0";
             if (Environment.GetEnvironmentVariable("GITHUB_RUN_NUMBER", EnvironmentVariableTarget.Machine) != null)
-            {
                 runNumber = "." + Environment.GetEnvironmentVariable("GITHUB_RUN_NUMBER", EnvironmentVariableTarget.Machine);
-            }
 
             Builder.ParseConfiguration(path, runNumber);
         }
@@ -51,10 +49,10 @@ namespace Assets.Editor.BuildTools
             const int architecture = 2;
             if (File.Exists(path))
             {
-                BuildConfig buildConfig = JsonUtility.FromJson<BuildConfig>(File.ReadAllText(path));
+                //BuildConfig buildConfig = JsonUtility.FromJson<BuildConfig>(File.ReadAllText(path));
                 
-                PlayerSettings.companyName = buildConfig.GetCompanyName();
-                PlayerSettings.productName = buildConfig.GetProductName();
+                //PlayerSettings.companyName = buildConfig.GetCompanyName();
+                //PlayerSettings.productName = buildConfig.GetProductName();
 
                 //PlayerSettings.WSA.packageVersion = new Version(buildConfig.GetVersionName() + runNumber + ".0");
             }
