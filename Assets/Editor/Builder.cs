@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.Build.Reporting;
 using Debug = UnityEngine.Debug;
 
 namespace Assets.Editor.BuildTools
@@ -24,15 +23,8 @@ namespace Assets.Editor.BuildTools
         {
             // Load either localhost.json or github.json
             string path = Builder.LocalPath;
-            //if (Environment.GetEnvironmentVariable("CI", EnvironmentVariableTarget.Machine) != null)
-            //{
-                //path = Builder.CiPath;
-            //}
-            //else if (! File.Exists(Builder.LocalPath))
-            //{
-                // Provide file, which is otherwise being ignored by .gitignore
-            //    FileUtil.CopyFileOrDirectory(Builder.CiPath, Builder.LocalPath);
-            //}
+
+
 
             // Append $GITHUB_RUN_NUMBER to the versionName
             string runNumber = ".0";
