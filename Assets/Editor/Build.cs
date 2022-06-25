@@ -11,12 +11,17 @@ public class Build
     {
         string[] levels = new string[] { "Assets/Scenes/SampleScene.unity" };
 
+        string versionFull = Application.version + ".";
+        versionFull += Environment.GetEnvironmentVariable("GITHUB_RUN_NUMBER");
+
+        //Debug.Log("GetEnvironmentVariables: ");
+        //foreach (DictionaryEntry de in Environment.GetEnvironmentVariables())
+        //    Debug.Log("  " + de.Key + " - " + de.Value);
+
+        Build.UpdateVersion("CI 2 Build " + versionFull);
+
         //BuildPipeline.BuildPlayer(levels, "Build/App.exe", BuildTarget.StandaloneWindows, BuildOptions.None);
 
-        Debug.Log("GetEnvironmentVariables: ");
-        foreach (DictionaryEntry de in Environment.GetEnvironmentVariables())
-            Debug.Log("  " + de.Key + " - " + de.Value);
-        
         // Copy a file from the project folder to the build folder, alongside the built game.
         //FileUtil.CopyFileOrDirectory("Assets/Templates/Readme.txt", path + "Readme.txt");
     }
