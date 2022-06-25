@@ -13,10 +13,10 @@ class MyCustomBuildProcessor : IPreprocessBuildWithReport
             + report.summary.platform + " at path " + report.summary.outputPath);
 
         // Append $GITHUB_RUN_NUMBER to the versionName
-        string runNumber = ".0";
+        string runNumber = Application.version;
         if (Environment.GetEnvironmentVariable("GITHUB_RUN_NUMBER", EnvironmentVariableTarget.Machine) != null)
-            runNumber = "." + Environment.GetEnvironmentVariable("GITHUB_RUN_NUMBER", EnvironmentVariableTarget.Machine);
+            runNumber += "." + Environment.GetEnvironmentVariable("GITHUB_RUN_NUMBER", EnvironmentVariableTarget.Machine);
 
-        Build.UpdateVersion("CI Build " + runNumber);
+        Build.UpdateVersion("CI 2 Build " + runNumber);
     }
 }
