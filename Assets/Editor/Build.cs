@@ -17,10 +17,11 @@ public class Build
         //Debug.Log("GetEnvironmentVariables: ");
         //foreach (DictionaryEntry de in Environment.GetEnvironmentVariables())
         //    Debug.Log("  " + de.Key + " - " + de.Value);
+        Debug.Log("versionFull = " + versionFull);
 
         Build.UpdateVersion("CI 2 Build " + versionFull);
 
-        //BuildPipeline.BuildPlayer(levels, "Build/App.exe", BuildTarget.StandaloneWindows, BuildOptions.None);
+        BuildPipeline.BuildPlayer(levels, "Build/App.exe", BuildTarget.StandaloneWindows, BuildOptions.None);
 
         // Copy a file from the project folder to the build folder, alongside the built game.
         //FileUtil.CopyFileOrDirectory("Assets/Templates/Readme.txt", path + "Readme.txt");
